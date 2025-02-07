@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <h2>Enter URL to Shorten</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Shorten URL</button>
+    </form>
+
+    <h3>Shortened URLs:</h3>
+    <ul>
+        {% for url in data %}
+            <li><a href="{% url 'url:redirect' url.slug %}">{{ url.slug }}</a> → {{ url.url }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
