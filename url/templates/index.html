@@ -4,25 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input[type="text"], input[type="url"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button.delete-btn {
+            background-color: #dc3545;
+        }
+
+        button.delete-btn:hover {
+            background-color: #a71d2a;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+
+        .url-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .url-actions form {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <h2>Enter URL to Shorten</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Shorten URL</button>
-    </form>
-
-    <h3>Shortened URLs:</h3>
-    <ul>
-        {% for url in data %}
-        <li>
-        <form method="POST" action="{% url 'url:delete' url.slug %}" style="display:inline;">
+    <div class="container">
+        <h2>URL Shortener</h2>
+        <form method="POST">
             {% csrf_token %}
-            <button type="submit">Delete</button>
+            {{ form.as_p }}
+            <button type="submit">Shorten URL</button>
         </form>
-            <a href="{% url 'url:redirect' url.slug %}">{{ url.slug }}</a> → {{ url.url }}</li>
-        {% endfor %}
-    </ul>
+
+        <h3>Shortened URLs</h3>
+        <ul>
+            {% for url in data %}
+            <li>
+                <div class="url-actions">
+                    <form method="POST" action="{% url 'url:delete' url.slug %}">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+                    <a href="{% url 'url:redirect' url.slug %}" target="_blank">{{ url.slug }}</a>
+                </div>
+                <span>{{ url.url }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
