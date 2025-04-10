@@ -2,10 +2,11 @@ import string
 import random
 import hashlib
 from urllib.parse import urlparse
-from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.shortcuts import redirect, render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
 from url.forms import Url
 from url.models import UrlData
+from django.urls import reverse
 
 # Base62 encoding characters
 BASE62_ALPHABET = string.ascii_letters + string.digits
@@ -49,7 +50,7 @@ def urlShort(request):
             new_url = UrlData(url=url, slug=slug)
             new_url.save()
 
-            return HttpResponse(f"Short URL created: /{slug}")
+            return redirect("http://127.0.0.1:8000/urlShort")
 
     else:
         form = Url()
@@ -73,3 +74,8 @@ def urlRedirect(request, slugs):
 
     except UrlData.DoesNotExist:
         return HttpResponse("URL not found", status=404)
+
+def delete_url(request, slug):
+    url = get_object_or_404(UrlData, slug=slug)
+    url.delete()
+    return redirect("http://127.0.0.1:8000/urlShort")

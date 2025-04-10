@@ -16,7 +16,12 @@
     <h3>Shortened URLs:</h3>
     <ul>
         {% for url in data %}
-            <li><a href="{% url 'url:redirect' url.slug %}">{{ url.slug }}</a> → {{ url.url }}</li>
+        <li>
+        <form method="POST" action="{% url 'url:delete' url.slug %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+            <a href="{% url 'url:redirect' url.slug %}">{{ url.slug }}</a> → {{ url.url }}</li>
         {% endfor %}
     </ul>
 </body>
