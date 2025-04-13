@@ -24,7 +24,6 @@ def base62_encode(num):
 
 def generate_short_slug(url):
     """Generate a unique short slug using a hash-based approach."""
-    "New Line"
     hash_digest = hashlib.md5(url.encode()).hexdigest() 
     num = int(hash_digest, 16)  
     return base62_encode(num)[:8]  
