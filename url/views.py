@@ -24,9 +24,10 @@ def base62_encode(num):
 
 def generate_short_slug(url):
     """Generate a unique short slug using a hash-based approach."""
-    hash_digest = hashlib.md5(url.encode()).hexdigest()  # Generate hash of the URL
-    num = int(hash_digest, 16)  # Convert hash to an integer
-    return base62_encode(num)[:8]  # Convert to Base62 and take the first 8 chars
+    "New Line"
+    hash_digest = hashlib.md5(url.encode()).hexdigest() 
+    num = int(hash_digest, 16)  
+    return base62_encode(num)[:8]  
 
 def urlShort(request):
     if request.method == 'POST':
