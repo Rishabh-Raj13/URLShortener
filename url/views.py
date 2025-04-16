@@ -50,7 +50,7 @@ def urlShort(request):
             new_url = UrlData(url=url, slug=slug)
             new_url.save()
 
-            return redirect("http://127.0.0.1:8000/urlShort")
+            return redirect("urlShort")
 
     else:
         form = Url()
@@ -78,4 +78,4 @@ def urlRedirect(request, slugs):
 def delete_url(request, slug):
     url = get_object_or_404(UrlData, slug=slug)
     url.delete()
-    return redirect("http://127.0.0.1:8000/urlShort")
+    return redirect("urlShort")
